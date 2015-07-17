@@ -1,0 +1,17 @@
+{
+  "name": "senf",
+  "version": "0.0.1",
+  "authors": [
+    "Peter Braun <peter-braun@gmx.net>"
+  ],
+  "description": "Lightweight comment hosting service",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

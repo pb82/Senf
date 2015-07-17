@@ -1,0 +1,6 @@
+.*
+!.gitignore
+*.db
+*.log
+bower_components
+node_modules
