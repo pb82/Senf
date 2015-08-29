@@ -23,7 +23,7 @@ exports.User = User;
  * has been set up
  */
 exports.sync = function (callback) {
-    database.sync({force: true}).then(callback, function (error) {
+    database.sync({force: false}).then(callback, function (error) {
     	logger.error('Error synchronizing database', error);
     });
 };

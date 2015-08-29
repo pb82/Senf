@@ -1,3 +1,94 @@
+@font-face {
+    font-family: 'Pacifico';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Pacifico Regular'), local('Pacifico-Regular'), url(../fonts/pacifico.woff2) format('woff2'), url(../fonts/pacifico.woff) format('woff');
+}
+
+@font-face {
+    font-family: 'Roboto Condensed';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Roboto Condensed'), local('RobotoCondensed-Regular'), url(../fonts/roboto.woff2) format('woff2'), url(../fonts/roboto.woff) format('woff');
+}
+
 body {
-	background-color: red;
+	width: 85%;
+	margin: 15px auto auto;
+	padding: 15px;
+	border: 1px solid black;
+}
+
+hr {
+	margin-top: 15px;
+	margin-bottom: 15px;
+}
+
+div.banner {
+	text-align: center;
+}
+
+h1 {
+	font-family: 'Pacifico', cursive;
+	text-align: center;
+	font-size: 26pt;
+}
+
+p {
+    font-family: 'Roboto Condensed', sans-serif;
+    text-align: justify;
+    font-size: 16pt;
+}
+
+form {
+    font-family: 'Roboto Condensed', sans-serif;
+    font-size: 12pt;
+    margin: 15px;
+    padding: 15px;
+    background-color: lightgray;
+    border: 1px solid gray;
+    width: 400px;
+    margin: auto;
+}
+
+span.version {
+    font-family: 'Roboto Condensed', sans-serif;
+    position: absolute;
+    top: 5%;
+    right: 9%;
+}
+
+span.user {
+    font-family: 'Roboto Condensed', sans-serif;
+    position: absolute;
+    top: 5%;
+    left: 9%;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+    padding-bottom: 5px;
+    border-bottom: 1px dotted grey;
+}
+
+div.line {
+    height: 32px;
+}
+
+div.line>input {
+    float: right;
+}
+
+input {
+    border: 1px solid black;
+}
+
+input[type=submit] {
+    padding: 5px;
+}
+
+p.error {
+    color: red;
+    font-size: 10pt;
 }

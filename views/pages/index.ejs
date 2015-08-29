@@ -1,5 +1,20 @@
-<% if(setupComplete) { %>
-<% include ../partials/login %>
-<% } else { %>
-<% include ../partials/setup %>
-<% } %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Senf</title>
+    <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+<div class="banner">
+    <pre><%= include('../partials/banner.txt') %></pre>
+    <span class="version"><%= version %></span>
+
+    <div class="menu">
+        <%= loggedIn %>
+    </div>
+    <hr>
+</div>
+<%- include('../partials/' + template) %>
+</body>
+</html>

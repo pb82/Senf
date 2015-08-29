@@ -19,9 +19,11 @@
     "passport": "^0.2.2",
     "passport-local": "^1.0.0",
     "password-hash": "^1.2.2",
+    "password-sheriff": "^1.0.0",
     "q": "^1.4.1",
     "sequelize": "^3.4.1",
     "sqlite3": "^3.0.9",
+    "validator": "^3.41.2",
     "winston": "^1.0.1"
   }
 }

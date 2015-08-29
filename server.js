@@ -1,9 +1,10 @@
 "user strict";
 
 var express = require('express')
-		, config = require('./config')
-		, database = require('./model')
-		, logger = require('./logger');
+    , config = require('./config')
+    , database = require('./model')
+    , version = require('./package').version
+    , logger = require('./logger');
 
 var Senf = express();
 
@@ -11,28 +12,54 @@ var Senf = express();
 Senf.use(express.static(__dirname + '/public'));
 
 // App config
-Senf.use(require('body-parser').urlencoded({ extended: true }));
+Senf.use(require('body-parser').urlencoded({extended: true}));
 Senf.use(require('body-parser').json());
-Senf.use(require('cookie-parser')())
+Senf.use(require('cookie-parser')());
 Senf.use(require('express-session')({
-	secret: config.sessionSecret,
-	saveUninitialized: true,
-	resave: true
+    secret: config.sessionSecret,
+    saveUninitialized: true,
+    resave: true
 }));
 
+// LogicFULL templates
 Senf.set('view engine', 'ejs');
 
-// Setup routes
-require('./routes')(Senf);
+// Authentication has to be the first in the middleware chain
+require('./auth')(Senf);
+
+// Inject app version and user for templates
+Senf.use(function (req, res, next) {
+    res.locals.version = version;
+    res.locals.loggedIn = !(req.user === undefined);
+    res.locals.user = {
+        email: req.user && req.user.email
+    };
+    next();
+});
+
+// App modules
+require('./src/setup')(Senf);
+require('./src/dashboard')(Senf);
 
 // Reply 404 to all unmatched requests
-Senf.get('*', function (req, res, next) {
-	res.render('pages/error/404');
+Senf.get('*', function (req, res, _) {
+    res.render('pages/index', {
+        template: 'error/404'
+    });
+});
+
+// Catch errors
+Senf.use(function (err, req, res, _) {
+    logger.error(err);
+    res.render('pages/index', {
+        template: 'error/500',
+        message: err.message || err
+    });
 });
 
 // Start server
 database.sync(function () {
-	Senf.listen(config.port, function () {
-		logger('Senf running on port', config.port);
-	})
+    Senf.listen(config.port, function () {
+        logger('Senf running on port', config.port);
+    })
 });

@@ -1,1 +1,38 @@
 <h1>Setup</h1>
+<p>
+    Welcome to Senf, a lightweight and easy to use comment
+    hosting service!
+
+    This seems to be your first time around. In order to continue
+    we'll have to create an admin account for you. You can then
+    go ahead and create other user accounts. Your email address serves as
+    a username. Notifications (like new comments) will also be sent there.
+</p>
+<p>
+    Please provide your credentials.
+</p>
+<form action="/setup" , method="POST">
+    <% if(data.errormsg) { %>
+    <p class="error">
+        <%- data.errormsg %>
+    </p>
+    <% } %>
+    <div class="line">
+        <label>E-mail:</label>
+        <input value="<%= data.email %>" maxlength="50" required="true" type="text" name="email" tabindex="1"
+               autofocus>
+    </div>
+    <div class="line">
+        <label>Password:</label>
+        <input value="<%= data.password1 %>" maxlength="12" required="true" type="password" name="password1"
+               tabindex="2">
+    </div>
+    <div class="line">
+        <label>Retype password:</label>
+        <input value="<%= data.password2 %>" maxlength="12" required="true" type="password" name="password2"
+               tabindex="2">
+    </div>
+    <div class="line">
+        <input type="submit" value="Complete setup">
+    </div>
+</form>
