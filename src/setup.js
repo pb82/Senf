@@ -1,6 +1,7 @@
 "use strict";
 
 var db = require('../model')
+    , config = require('../config')
     , validator = require('validator')
     , hash = require('password-hash')
     , createPolicy = require('password-sheriff')
@@ -62,6 +63,8 @@ module.exports = function (app) {
      * repetition). Validate inputs and create admin account.
      */
     app.post('/setup', function (req, res) {
+        var enforcePolicy = config.accounts.enforcePasswordPolicy;
+
         async.waterfall([
             function (callback) {
                 /**
@@ -77,7 +80,7 @@ module.exports = function (app) {
                     callback("Passwords do not match");
                 } else if (!validator.isEmail(req.body.email)) {
                     callback("Invalid E-mail");
-                } else if (!policy.check(req.body.password1)) {
+                } else if (enforcePolicy && !policy.check(req.body.password1)) {
                     callback("Password not strong enough");
                 } else {
                     callback(null);

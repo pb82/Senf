@@ -18,5 +18,10 @@ module.exports = {
 	database: {
 		logSql: false,
 		filename: 'senf.db'
+	},
+
+	// User and account related config
+	accounts: {
+		enforcePasswordPolicy: false
 	}
 }

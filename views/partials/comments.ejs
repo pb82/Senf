@@ -1,0 +1,27 @@
+<h1>Comments</h1>
+<div>
+    <table>
+        <thead>
+        <tr>
+            <td>Id</td>
+            <td>Author</td>
+            <td>Comment</td>
+        </tr>
+        </thead>
+        <tbody>
+        <% for (var i = 0; i < data.comments.length; i++) { %>
+        <tr>
+            <td>
+                <%= data.comments[i].id %>
+            </td>
+            <td>
+                <%= data.comments[i].author %>
+            </td>
+            <td>
+                <%= data.comments[i].text %>
+            </td>
+        </tr>
+        <% } %>
+        </tbody>
+    </table>
+</div>

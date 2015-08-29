@@ -1,0 +1,27 @@
+<h1>Articles</h1>
+<div>
+    <table>
+        <thead>
+        <tr>
+            <td>Id</td>
+            <td>Name</td>
+            <td>Domain</td>
+        </tr>
+        </thead>
+        <tbody>
+        <% for (var i = 0; i < data.articles.length; i++) { %>
+        <tr>
+            <td>
+                <%= data.articles[i].id %>
+            </td>
+            <td>
+                <a class="linkButton" href="/comments/<%= data.articles[i].id %>"><%= data.articles[i].name %></a>
+            </td>
+            <td>
+                <%= data.articles[i].domain.name %>
+            </td>
+        </tr>
+        <% } %>
+        </tbody>
+    </table>
+</div>

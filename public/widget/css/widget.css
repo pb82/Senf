@@ -1,0 +1,15 @@
+div#senf_form {
+    font-size: 10pt;
+}
+
+div#senf_form>input[type="text"] {
+    display: block;
+}
+
+div#senf_form>textarea {
+    display: block;
+}
+
+div#senf_comments {
+    display: block;
+}

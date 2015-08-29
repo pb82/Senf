@@ -3,18 +3,42 @@
 <head>
     <meta charset="utf-8">
     <title>Senf</title>
-    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="/vex/css/vex.css">
+    <link rel="stylesheet" href="/vex/css/vex-theme-plain.css">
+    <link rel="stylesheet" href="/css/main.css">
 </head>
 <body>
 <div class="banner">
     <pre><%= include('../partials/banner.txt') %></pre>
     <span class="version"><%= version %></span>
 
+    <% if (loggedIn) { %>
     <div class="menu">
-        <%= loggedIn %>
+        <%= user.email %>
+        <ul>
+            <li>
+                <a href="/dashboard">Dashboard</a>
+            </li>
+            <% if (user.role === 'admin') { %>
+            <li>
+                <a href="/users">Users</a>
+            </li>
+            <% } %>
+            <li>
+                <a href="/domains">Domains</a>
+            </li>
+            <li>
+                <a href="/logout">Logout</a>
+            </li>
+        </ul>
     </div>
+    <% } %>
     <hr>
 </div>
 <%- include('../partials/' + template) %>
+<script src="/jquery/dist/jquery.min.js"></script>
+<script src="/vex/js/vex.combined.min.js"></script>
+<script>vex.defaultOptions.className = 'vex-theme-plain';</script>
+<script src="/js/frontend.js"></script>
 </body>
 </html>

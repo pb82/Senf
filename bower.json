@@ -1,0 +1,15 @@
+{
+  "name": "Senf",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "vex": "~2.3.2",
+    "jquery": "~2.1.4"
+  }
+}

@@ -1,0 +1,34 @@
+<h1>Domains</h1>
+<div>
+    <table>
+        <thead>
+            <tr>
+                <td>Id</td>
+                <td>Domain</td>
+                <td>Owner</td>
+                <td></td>
+            </tr>
+        </thead>
+        <tbody>
+        <% for (var i = 0; i < data.domains.length; i++) { %>
+        <tr>
+            <td>
+                <%= data.domains[i].id %>
+            </td>
+            <td>
+                <a class="linkButton" href="/articles/<%= data.domains[i].id %>"><%= data.domains[i].name %></a>
+            </td>
+            <td>
+                <%= data.domains[i].user.email %>
+            </td>
+            <td>
+                <a onclick="frontend.domain.remove(<%= data.domains[i].id %>)" class="linkButton danger">delete</a>
+            </td>
+        </tr>
+        <% } %>
+        </tbody>
+    </table>
+    <div class="buttons">
+        <button class="linkButton" onclick="frontend.domain.add()">Add domain</button>
+    </div>
+</div>
