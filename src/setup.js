@@ -24,6 +24,14 @@ module.exports = function (app) {
      * the user to the setup page.
      */
     app.get('*', function (req, res, next) {
+        /**
+         * API routes must not go through the setup
+         * process
+         */
+        if (/^\/api\//.test(req.path)) {
+            return next();
+        }
+
         async.waterfall([
             function (callback) {
                 /**

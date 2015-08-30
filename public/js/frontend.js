@@ -30,6 +30,8 @@
                     $.extend({}, vex.dialog.buttons.NO, {text: 'Cancel'})
                 ],
                 afterOpen: function () {
+                    $("input[name='name']").focus();
+
                     // Display the submit button only when the input is validated
                     $(".vex-dialog-button-primary").hide();
                 },

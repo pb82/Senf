@@ -13,7 +13,7 @@ Senf.use(express.static(__dirname + '/public'));
 Senf.use(express.static(__dirname + '/bower_components'));
 
 // App config
-Senf.use(require('body-parser').urlencoded({extended: true}));
+Senf.use(require('body-parser').urlencoded({ extended: true }));
 Senf.use(require('body-parser').json());
 Senf.use(require('cookie-parser')());
 Senf.use(require('express-session')({

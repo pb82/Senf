@@ -1,9 +1,9 @@
 "use strict";
 
-var auth = require('../../../auth')
-    , db = require('../../../model')
+var db = require('../../../model')
     , url = require('url')
     , logger  = require('../../../logger')
+    , config = require('../../../config')
     , cors = require('cors')
     , validator = require('validator')
     , escape = require('escape-html')
@@ -17,20 +17,20 @@ function findUser(email, urlParts) {
             where: {email: email},
             include: [{
                 model: db.Domain,
-                where: {name: urlParts.hostname}
+                where: { name: urlParts.hostname }
             }]
         }).then(function (user) {
             if (user) {
                 callback(null, user);
             } else {
                 // Send a useful errormessage to the frontend
-                callback(new Error([
+                callback([
                     "Domain or user not found (",
                     urlParts.hostname,
                     " / ",
                     email,
                     ")"
-                ].join('')));
+                ].join(''));
             }
         }).catch(function (error) {
             callback(error);
@@ -38,7 +38,10 @@ function findUser(email, urlParts) {
     }
 }
 
-// Find a domain object owned by a user given the hostname
+/**
+ * Make sure the request domain is owned by the request
+ * user (identified by email)
+ */
 function findDomain(urlParts) {
     return function (user, callback) {
         for (var i = 0; i < user.domains.length; i++) {
@@ -46,7 +49,14 @@ function findDomain(urlParts) {
                 return callback(null, user.domains[i]);
             }
         }
-        callback(new Error("The requested domain does not belong to the user"));
+
+        callback([
+            "The user '",
+            user.email,
+            "' does not own domain '",
+            urlParts.hostname,
+            "'"
+        ]);
     }
 }
 
@@ -81,20 +91,39 @@ function findArticle(urlParts) {
     }
 }
 
+/**
+ * Error objects are thrown by libraries and have to be logged as proper
+ * errors. String are ttreated as warnings.
+ */
+function handleError(error) {
+    if (error instanceof Error) {
+        logger.error(error);
+    } else if (error) {
+        logger.warn(error);
+    }
+}
+
 module.exports = function (app) {
+    /**
+     * Post a new comment by submitting author and comment text. All other relevant
+     * parameters are cotained in the request referer.
+     */
     app.post('/api/v1/comments', cors(), function (req, res) {
         var urlParts = url.parse(req.headers.referer);
 
-        if (!validator.isLength(req.body.author, 1, 50) ||
-            !validator.isLength(req.body.text, 1, 500)) {
-            return res.json({
-                success: false,
-                message: "input too long"
-            });
-        }
-
-
         async.waterfall([
+            function (callback) {
+                if (!validator.isLength(req.body.text, 1, config.accounts.maxCommentLength)) {
+                    callback([
+                        "Comments must be between 1 and ",
+                        config.accounts.maxCommentLength,
+                        " characters in length"
+                    ].join(''));
+                } else {
+                    callback(null);
+                }
+            },
+
             findUser(req.body.user, urlParts),
             findDomain(urlParts),
             findArticle(urlParts),
@@ -111,22 +140,19 @@ module.exports = function (app) {
                 });
             }
         ], function (error, comment) {
+            handleError(error);
             if (error) {
-                // Dont leak errors
-                logger.error("POST /api/v1/comments", error);
-                res.json({
-                    success: false,
-                    message: "Server error"
-                });
+                res.sendStatus(400);
             } else {
-                res.json({
-                    success: true,
-                    result: comment
-                });
+                res.json(comment);
             }
         });
     });
 
+    /**
+     * Get comments by sending the user email. All other relevant parameters
+     * are contained in the request referer.
+     */
     app.get('/api/v1/comments', cors(), function (req, res) {
         var urlParts = url.parse(req.headers.referer);
 
@@ -149,18 +175,11 @@ module.exports = function (app) {
                 });
             }
         ], function (error, comments) {
+            handleError(error);
             if (error) {
-                // Dont leak errors
-                logger.error("POST /api/v1/comments", error);
-                res.json({
-                    success: false,
-                    message: "Server error"
-                });
+                res.sendStatus(400);
             } else {
-                res.json({
-                    success: true,
-                    result: comments
-                });
+                res.json(comments);
             }
         });
     });

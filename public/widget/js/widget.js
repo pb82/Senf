@@ -6,17 +6,12 @@
  *      "target":   <A DIV ELEMENT TO RENDER THE COMMENTS TO>
  *      "server":   <SENF SERVER URL>
  *      "user":     <YOUR USER NAME>
- *      "protocol": <HTTP | HTTPS>
- *      "debug":    <TRUE|FALSE [OPTIONAL]>
  * }
  * @param props Properties object
  * @constructor
  */
 var SenfWidget = function (props) {
     var requiredProps = ["target", "server", "user"];
-    var errout = props.debug ? function (message) {
-        console.error(message);
-    } : function () {};
 
     /**
      * Don't use fancy 'map' or 'indexOf' here for the sake of old
@@ -40,13 +35,13 @@ var SenfWidget = function (props) {
     function appendComment(commentsList, comment) {
         commentsList.append(
             [
-                '<LI>'                  ,
-                '<SPAN>'                ,
-                comment.author          ,
-                '</SPAN>'               ,
-                '<P>'                   ,
-                comment.text            ,
-                '</P>'                  ,
+                '<LI>'                          ,
+                '<DIV class="senf_author">'     ,
+                comment.author                  ,
+                '</SPAN>'                       ,
+                '<DIV class="senf_comment">'    ,
+                comment.text                    ,
+                '</DIV>'                        ,
                 '</LI>'
             ].join('')
         );
@@ -54,6 +49,11 @@ var SenfWidget = function (props) {
 
     function getCommentsList() {
         return $("div#" + props.target + ">div#senf_comments ul");
+    }
+
+    function clearLastComment() {
+        $("div#senf_form > input").val("");
+        $("div#senf_form > textarea").val("");
     }
 
     /**
@@ -68,7 +68,7 @@ var SenfWidget = function (props) {
             dataType: 'json',
             data: { user: props.user }
         }).done (function (data) {
-            if (data && data.success) {
+            if (data && data.length) {
                 /**
                  * Successfuly got an array of comments now in the form of
                  * {
@@ -78,18 +78,16 @@ var SenfWidget = function (props) {
                  * @type {*|jQuery|HTMLElement}
                  */
                 var commentsList = getCommentsList();
-                for (var i = 0; i < data.result.length; i++) {
+                for (var i = 0; i < data.length; i++) {
                     /**
                      * Append all comments to the already created
                      * <ul> list in the senf widget section.
                      */
-                    appendComment(commentsList, data.result[i]);
+                    appendComment(commentsList, data[i]);
                 }
-            } else {
-                errout.apply(null, data ? [data.message] : ["Request failed"]);
             }
-        }).fail (function (err, errStr) {
-            throw new Error(err.status + ": " + errStr, "widget.js");
+        }).fail (function () {
+            throw new Error("Invalid request. See server logs for details", "widget.js");
         });
     }
 
@@ -133,16 +131,10 @@ var SenfWidget = function (props) {
                     text: commentText
                 }
             }).done(function (comment) {
-                if (comment.success === true) {
-                    var commentsList = getCommentsList();
-                    appendComment(commentsList, comment.result);
-                    $("div#senf_form > input").val("");
-                    $("div#senf_form > textarea").val("");
-                } else {
-                    errout.apply(null, comment ? [comment.message] : ["Request failed"]);
-                }
-            }).fail(function (err, errStr) {
-                throw new Error(err.status + ": " + errStr, "widget.js");
+                appendComment(getCommentsList(), comment);
+                clearLastComment();
+            }).fail(function () {
+                throw new Error("Invalid request. See server logs for details", "widget.js");
             });
         }
     }
