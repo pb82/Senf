@@ -49,6 +49,20 @@ module.exports = function (app) {
      */
     app.post('/domains', auth.allow(['admin', 'user']), function (req, res) {
         async.waterfall([
+            // Ensure that domains are unique
+            function (callback) {
+                db.Domain.find({
+                    where: { name: req.body.name }
+                }).then(function (domain) {
+                    if (domain) {
+                        callback(new Error("Domain already owned by another user"));
+                    } else {
+                        callback(null);
+                    }
+                }).catch(function (error) {
+                    callback(error);
+                });
+            },
             /**
              * Find the user to associate him with the
              * domain

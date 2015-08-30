@@ -4,6 +4,24 @@
     }
 
     parent.frontend = {};
+
+    parent.frontend.comment = {
+        remove: function (id) {
+            vex.dialog.confirm({
+                message: "Do you really want to delete this comment?",
+                callback: function (value) {
+                    if (value) {
+                        $.post('/remove_comment', {
+                            id: id
+                        }).done(function () {
+                            window.location.reload();
+                        }).fail(showError);
+                    }
+                }
+            });
+        }
+    };
+
     parent.frontend.domain = {
         domainRegex: /^(?!:\/\/)([a-zA-Z0-9]+\.)?[a-zA-Z0-9][a-zA-Z0-9-]+\.[a-zA-Z]{2,6}?$/i,
 
@@ -59,5 +77,5 @@
                 }
             });
         }
-    }
+    };
 })(window);

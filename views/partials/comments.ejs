@@ -6,6 +6,7 @@
             <td>Id</td>
             <td>Author</td>
             <td>Comment</td>
+            <td></td>
         </tr>
         </thead>
         <tbody>
@@ -19,6 +20,9 @@
             </td>
             <td>
                 <%= data.comments[i].text %>
+            </td>
+            <td>
+                <a onclick="frontend.comment.remove(<%= data.comments[i].id %>)" class="linkButton danger">delete</a>
             </td>
         </tr>
         <% } %>
