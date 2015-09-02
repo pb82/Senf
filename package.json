@@ -4,7 +4,8 @@
   "description": "Lightweight comment hosting service",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node index.js",
+    "test": "NODE_ENV=test node_modules/mocha/bin/mocha"
   },
   "author": "Peter Braun",
   "license": "MIT",
@@ -23,10 +24,13 @@
     "passport-local": "^1.0.0",
     "password-hash": "^1.2.2",
     "password-sheriff": "^1.0.0",
-    "q": "^1.4.1",
     "sequelize": "^3.4.1",
     "sqlite3": "^3.0.9",
     "validator": "^3.41.2",
     "winston": "^1.0.1"
+  },
+  "devDependencies": {
+    "mocha": "^2.3.0",
+    "supertest": "^1.1.0"
   }
 }

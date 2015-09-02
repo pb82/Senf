@@ -61,9 +61,10 @@ Senf.use(function (err, req, res, _) {
     });
 });
 
-// Start server
-database.sync(function () {
-    Senf.listen(config.port, function () {
-        logger('Senf running on port', config.port);
-    })
-});
+exports.run = function (callback) {
+    database.sync(function () {
+        Senf.listen(config.port, function () {
+            callback(Senf);
+        })
+    });
+};
