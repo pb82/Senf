@@ -1,7 +1,7 @@
 {
   "name": "senf",
   "version": "0.0.1",
-  "description": "Lightweight comment hosting service",
+  "description": "Minimalistic comment hosting service",
   "main": "server.js",
   "scripts": {
     "start": "node index.js",

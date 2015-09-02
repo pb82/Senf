@@ -21,7 +21,7 @@ if (config.console.enabled) {
 	});
 }
 
-// Export a functoin that will log infos by default
+// Export a function that will log infos by default
 module.exports = function () {
 	logger.info.apply(null, Array.prototype.slice.call(arguments));
 };
