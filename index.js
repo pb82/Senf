@@ -1,7 +1,12 @@
-var config = require('./config')
-    , version = require('./package').version
-    , logger = require('./logger');
+"use strict";
+
+/**
+ * Entry point. Requires `server.js` and executes the
+ * run function.
+ */
+
+var config = require('./config');
 
 require('./server').run(function () {
-    logger('Senf',version, 'running on port', config.port);
+    require('./logger')('Senf', require('./package').version, 'running on port', config.port);
 });

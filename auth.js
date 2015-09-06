@@ -4,6 +4,7 @@ var db = require('./model')
     , LocalStrategy = require('passport-local')
     , hash = require('password-hash')
     , logger = require('./logger')
+    , version = require('./package').version
     , passport = require('passport');
 
 module.exports = function (app) {
@@ -11,9 +12,16 @@ module.exports = function (app) {
     app.use(passport.session());
 
     app.get('/login', function (req, res) {
+        /**
+         * Template params need to be passed explicitely here, because
+         * the middleware that does this is executed after all login
+         * stuff in the chain.
+         */
         res.render('pages/index', {
             template: 'login',
-            data: {}
+            version: version,
+            loggedIn: false,
+            user: null
         });
     });
 
@@ -43,9 +51,9 @@ module.exports = function (app) {
                     return done(null, false);
                 }
 
-                logger('Authentication pending for', user.username);
+                logger('Authentication pending for', user.email);
                 if (!hash.verify(password, user.password)) {
-                    logger('Authentication unsuccessful for', user.username);
+                    logger('Authentication unsuccessful for', user.email);
                     return done(null, false);
                 }
 
@@ -96,9 +104,7 @@ module.exports.allow = function (roles) {
         if (req.isAuthenticated() && roles.indexOf(req.user.role) >= 0) {
             return next();
         } else {
-            return res.render('pages/index', {
-                template: 'login'
-            });
+            res.redirect('/login');
         }
     };
 };

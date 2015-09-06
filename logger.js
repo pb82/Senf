@@ -3,6 +3,14 @@
 var winston = require('winston')
 		, config = require('./config').logger;
 
+/**
+ * Override the log level for tests to prevent polluting the
+ * test output with info and debug logs
+ */
+if (process.env.NODE_ENV === 'test') {
+	config.console.level = 'error';
+}
+
 // Setup
 var logger = new (winston.Logger)({
 	colors: {

@@ -73,7 +73,6 @@ module.exports = function (app) {
                 }).then(function (user) {
                     callback(null, user);
                 }).catch(function (error) {
-                    console.log(error);
                     callback(error);
                 });
             },

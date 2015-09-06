@@ -23,6 +23,7 @@ script and stylesheet:
 
 ```html
 <link href="https://<SENF SERVER>/widget/css/widget.css" rel="stylesheet">
+...
 <script src="https://<SENF SERVER>/widget/js/widget.js"></script>
 <script>
     new SenfWidget({
