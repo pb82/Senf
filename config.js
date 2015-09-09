@@ -25,7 +25,7 @@ module.exports = {
 
 	// User and account related config
 	accounts: {
-		enforcePasswordPolicy: false,
-		maxCommentLength: 10
+		enforcePasswordPolicy: true,
+		maxCommentLength: 500
 	}
 }
