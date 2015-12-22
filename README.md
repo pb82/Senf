@@ -27,7 +27,7 @@ script and stylesheet:
     new SenfWidget({
         target: "comments",
         server: "https://<SENF SERVER>",
-        user: "peter-braun@gmx.net"
+        user: "<EMAIL>"
     });
 </script>
 ```
