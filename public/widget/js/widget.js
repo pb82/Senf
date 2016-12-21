@@ -56,6 +56,10 @@ var SenfWidget = function (props) {
         $("div#senf_form > textarea").val("");
     }
 
+    function fillStats(numberOfComments) {
+        $("div#senf_stats").html(numberOfComments + " comment(s)");
+    }
+
     /**
      * Fetch comments for this domain and article from the server
      * and render them. Assumes that jQuery is available.
@@ -69,6 +73,7 @@ var SenfWidget = function (props) {
             data: { user: props.user }
         }).done (function (data) {
             if (data && data.length) {
+                fillStats(data.length);
                 /**
                  * Successfuly got an array of comments now in the form of
                  * {
@@ -102,6 +107,7 @@ var SenfWidget = function (props) {
         }
 
         targetDiv.innerHTML = [
+            '<DIV id="senf_stats"></DIV>'                                                   ,
             '<DIV id="senf_comments">'                                                      ,
             '<UL>'                                                                          ,
             '</UL>'                                                                         ,
