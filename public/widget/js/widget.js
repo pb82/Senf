@@ -97,6 +97,10 @@ var SenfWidget = function (props) {
      */
     function renderForm() {
         var targetDiv = document.getElementById(props.target), submitBtn;
+        if (!targetDiv) {
+            return;
+        }
+
         targetDiv.innerHTML = [
             '<DIV id="senf_comments">'                                                      ,
             '<UL>'                                                                          ,
