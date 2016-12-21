@@ -38,7 +38,7 @@ var SenfWidget = function (props) {
                 '<LI>'                          ,
                 '<DIV class="senf_author">'     ,
                 comment.author                  ,
-                '</SPAN>'                       ,
+                '</DIV>'                       ,
                 '<DIV class="senf_comment">'    ,
                 comment.text                    ,
                 '</DIV>'                        ,
