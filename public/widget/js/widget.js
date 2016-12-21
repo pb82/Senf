@@ -35,13 +35,13 @@ var SenfWidget = function (props) {
     function appendComment(commentsList, comment) {
         commentsList.append(
             [
-                '<LI>'                          ,
-                '<DIV class="senf_author">'     ,
-                comment.author                  ,
-                '</DIV>'                       ,
-                '<DIV class="senf_comment">'    ,
-                comment.text                    ,
-                '</DIV>'                        ,
+                '<LI>',
+                '<DIV class="senf_author">',
+                comment.author || "Anonymous",
+                '</DIV>',
+                '<DIV class="senf_comment">',
+                comment.text,
+                '</DIV>',
                 '</LI>'
             ].join('')
         );
@@ -70,8 +70,8 @@ var SenfWidget = function (props) {
             url: url,
             crossDomain: true,
             dataType: 'json',
-            data: { user: props.user }
-        }).done (function (data) {
+            data: {user: props.user}
+        }).done(function (data) {
             if (data && data.length) {
                 fillStats(data.length);
                 /**
@@ -91,7 +91,7 @@ var SenfWidget = function (props) {
                     appendComment(commentsList, data[i]);
                 }
             }
-        }).fail (function () {
+        }).fail(function () {
             throw new Error("Invalid request. See server logs for details", "widget.js");
         });
     }
@@ -107,16 +107,16 @@ var SenfWidget = function (props) {
         }
 
         targetDiv.innerHTML = [
-            '<DIV id="senf_stats"></DIV>'                                                   ,
-            '<DIV id="senf_comments">'                                                      ,
-            '<UL>'                                                                          ,
-            '</UL>'                                                                         ,
-            '</DIV>'                                                                        ,
-            '<DIV id="senf_form">'                                                          ,
-            '<INPUT type="text" placeholder="Name / Email" name="poster" maxlength="50">'   ,
-            '<TEXTAREA cols="40" rows="5" name="new_comment">'                              ,
-            '</TEXTAREA>'                                                                   ,
-            '<BUTTON id="senf_submit">Submit comment</BUTTON>'                              ,
+            '<DIV id="senf_stats"></DIV>',
+            '<DIV id="senf_comments">',
+            '<UL>',
+            '</UL>',
+            '</DIV>',
+            '<DIV id="senf_form">',
+            '<INPUT type="text" placeholder="Name / Email" name="poster" maxlength="50">',
+            '<TEXTAREA cols="40" rows="5" name="new_comment">',
+            '</TEXTAREA>',
+            '<BUTTON id="senf_submit">Submit comment</BUTTON>',
             '</DIV>'
         ].join('\n');
 
