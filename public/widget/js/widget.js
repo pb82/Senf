@@ -32,8 +32,8 @@ var SenfWidget = function (props) {
     /**
      * Append a single comment to the comments list
      */
-    function appendComment(commentsList, comment) {
-        commentsList.append(
+    function appendComment(commentsList, comment, cmd) {
+        commentsList[cmd](
             [
                 '<LI>',
                 '<DIV class="senf_author">',
@@ -88,7 +88,7 @@ var SenfWidget = function (props) {
                      * Append all comments to the already created
                      * <ul> list in the senf widget section.
                      */
-                    appendComment(commentsList, data[i]);
+                    appendComment(commentsList, data[i], 'append');
                 }
             }
         }).fail(function () {
@@ -141,7 +141,7 @@ var SenfWidget = function (props) {
                     text: commentText
                 }
             }).done(function (comment) {
-                appendComment(getCommentsList(), comment);
+                appendComment(getCommentsList(), comment, 'prepend');
                 clearLastComment();
             }).fail(function () {
                 throw new Error("Invalid request. See server logs for details", "widget.js");
