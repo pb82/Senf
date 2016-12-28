@@ -103,7 +103,7 @@ var SenfWidget = function (props) {
     function renderForm() {
         var targetDiv = document.getElementById(props.target), submitBtn;
         if (!targetDiv) {
-            return;
+            return false;
         }
 
         targetDiv.innerHTML = [
@@ -146,9 +146,10 @@ var SenfWidget = function (props) {
             }).fail(function () {
                 throw new Error("Invalid request. See server logs for details", "widget.js");
             });
-        }
+        };
+
+        return true;
     }
 
-    renderForm();
-    renderComments();
+    renderForm() && renderComments();
 };

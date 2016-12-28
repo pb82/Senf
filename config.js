@@ -2,7 +2,7 @@
 
 module.exports = {
 	// Server
-	port: 3000,
+	port: 3001,
 	sessionSecret: 'Please change this!',
 
 	// Logging
@@ -26,6 +26,6 @@ module.exports = {
 	// User and account related config
 	accounts: {
 		enforcePasswordPolicy: true,
-		maxCommentLength: 500
+		maxCommentLength: 1024
 	}
 }
