@@ -17,6 +17,18 @@ var db = require('../model')
  */
 var policy = createPolicy('good');
 
+function countAdminUsers(callback) {
+    db.User.count({
+        where: {
+            role: 'admin'
+        }
+    }).then(function (count) {
+        callback(null, count);
+    }).catch(function (error) {
+        callback(error);
+    });
+}
+
 module.exports = function (app) {
     /**
      * Before any real routing takes place we must ensure that
@@ -33,22 +45,12 @@ module.exports = function (app) {
         }
 
         async.waterfall([
-            function (callback) {
-                /**
-                 * If there is at least one admin user present, the application
-                 * has been set up. Otherwise the user must create an admin
-                 * account on this point.
-                 */
-                db.User.count({
-                    where: {
-                        role: 'admin'
-                    }
-                }).then(function (count) {
-                    callback(null, count);
-                }).catch(function (error) {
-                    callback(error);
-                });
-            }
+            /**
+             * If there is at least one admin user present, the application
+             * has been set up. Otherwise the user must create an admin
+             * account on this point.
+             */
+            countAdminUsers
         ], function (error, count) {
             if (error) {
                 next(error);
@@ -74,6 +76,21 @@ module.exports = function (app) {
         var enforcePolicy = config.accounts.enforcePasswordPolicy;
 
         async.waterfall([
+            countAdminUsers,
+
+            /**
+             * Do not run the setup code if there is already an admin user
+             * present. Otherwise this could be exploited to create arbitrary
+             * admin users
+             */
+            function (count, callback) {
+                if (count !== 0) {
+                    return callback("Setup already completed");
+                }
+
+                callback(null);
+            },
+
             function (callback) {
                 /**
                  * Checking for the prescence of the properties in the request
