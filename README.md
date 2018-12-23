@@ -5,7 +5,7 @@ similar to Disqus (https://disqus.com/) just way more barebones. But you can hos
 To use Senf you include a tiny script on every article page. The script will render the existing comments and display a field to
 enter new comments. The Senf script requires jQuery.
 
-###Stack
+### Stack
 
 * Node.js
 * Express.js
@@ -14,7 +14,7 @@ enter new comments. The Senf script requires jQuery.
 * Sqlite and Sequelize (for storage)
 
 
-###How it works
+### How it works
 
 Senf lets you collect comments from as many domains as you like. On every article page you have to include the following
 script and stylesheet:
@@ -35,7 +35,7 @@ script and stylesheet:
 Please note that the Senf script requires jQuery to be present. The comment area will be rendered into a `div` element
 with the `id` in the `target` property. It has to exist on the page. Users are identified by their email.
 
-###Installation
+### Installation
 
 1. Clone this repository
 2. Install dependencies: `npm install` followed by `bower install`
@@ -44,7 +44,7 @@ with the `id` in the `target` property. It has to exist on the page. Users are i
 4. Start the server with `npm start`
 
 
-###Usage
+### Usage
 
 1. The default port is `3000`
 2. Point your browser to `localhost:3000` (or whatever port you have configured)
