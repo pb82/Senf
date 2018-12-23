@@ -67,12 +67,12 @@ describe('setup', function () {
     it('should not be possible to make unauthenticated requests', function (done) {
         user.get('/domains')
             .expect(302)
-            .expect('Moved Temporarily. Redirecting to /login')
+            .expect(/Redirecting to \/login/)
             .end(function (err, res) {
                 if (!err) {
                     done();
                 } else {
-                    throw new Error("Request could be made without authenticating");
+                    throw err;
                 }
             });
     });
@@ -84,7 +84,7 @@ describe('setup', function () {
                 password: 'asdfASDF123!"',
             })
             .expect(302)
-            .expect('Moved Temporarily. Redirecting to /login')
+            .expect(/Redirecting to \/login/)
             .end(function (err, res) {
                 if (err) {
                     throw err;
@@ -222,7 +222,7 @@ describe('setup', function () {
     it('should succeed to log out', function (done) {
         user.get('/logout')
             .expect(302)
-            .expect('Moved Temporarily. Redirecting to /')
+            .expect(/Redirecting to \//)
             .end(function (err, res) {
                 if (err) {
                     throw err;

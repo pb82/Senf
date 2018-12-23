@@ -10,7 +10,7 @@ var Senf = express();
 
 // Static assets
 Senf.use(express.static(__dirname + '/public'));
-Senf.use(express.static(__dirname + '/bower_components'));
+Senf.use(express.static(__dirname + '/vendor'));
 
 // App config
 Senf.use(require('body-parser').urlencoded({ extended: true }));
