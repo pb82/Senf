@@ -38,7 +38,7 @@ with the `id` in the `target` property. It has to exist on the page. Users are i
 ### Installation
 
 1. Clone this repository
-2. Install dependencies: `npm install` followed by `bower install`
+2. Install dependencies: `npm install`.
 3. Run the tests with `npm test`
 4. Open `config.js` and modify it to your needs
 4. Start the server with `npm start`
